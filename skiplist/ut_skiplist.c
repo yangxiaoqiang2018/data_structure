@@ -58,7 +58,7 @@ static int skiplist_random_level(void)
     return level < SKIPLIST_MAX_LEVEL ? level : SKIPLIST_MAX_LEVEL;
 }
 
-skiplist_t *skiplist_insert(skiplist_t *list, void *value)
+skiplist_t *skiplist_insert(skiplist_t *list, void *value, int *node_rank)
 {
     skiplist_node *update[SKIPLIST_MAX_LEVEL];
     skiplist_node *node = list->header;
@@ -106,15 +106,16 @@ skiplist_t *skiplist_insert(skiplist_t *list, void *value)
         list->tail = node;
     }
     list->len += 1;
+    if (node_rank) *node_rank = rank[0] + 1;
     return list;
 }
 
-skiplist_node *skiplist_find(skiplist_t *list, void *value, int *rank)
+skiplist_node *skiplist_find(skiplist_t *list, void *value, int *node_rank)
 {
     skiplist_node *node = list->header;
     for (int i = list->level - 1; i >= 0; i--) {
         while (node->level[i].forward && list->type.compare(node->level[i].forward->value, value) <= 0) {
-            if (rank) *rank += node->level[i].span;
+            if (node_rank) *node_rank += node->level[i].span;
             node = node->level[i].forward;
         }
     }

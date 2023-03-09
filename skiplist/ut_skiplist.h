@@ -34,8 +34,8 @@ typedef struct skiplist_t {
 # define skiplist_tail(l) ((l)->tail)
 
 skiplist_t *skiplist_create(skiplist_type *type);
-skiplist_t *skiplist_insert(skiplist_t *list, void *value);
-skiplist_node *skiplist_find(skiplist_t *list, void *value, int *rank);
+skiplist_t *skiplist_insert(skiplist_t *list, void *value, int *node_rank);
+skiplist_node *skiplist_find(skiplist_t *list, void *value, int *node_rank);
 void skiplist_delete(skiplist_t *list, skiplist_node *node);
 void skiplist_release(skiplist_t *list);
 

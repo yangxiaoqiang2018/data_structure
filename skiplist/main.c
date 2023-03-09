@@ -54,24 +54,25 @@ int main(int argc, char *argv[])
     type.compare = node_compare;
     skiplist_t *list = skiplist_create(&type);
 
-    /*
-    for (int i = 0; i < 12000; ++i) {
+    int rank = 0;
+    for (int i = 0; i < 30; ++i) {
         int num = random() % 26;
         char value[100] = {0};
         sprintf(value, "%c", 'a' + num);
-        if (skiplist_insert(list, value)) {
-            printf("insert: %s\n", value);
+        if (skiplist_insert(list, value, &rank)) {
+            printf("insert: %s, rank: %d\n", value, rank);
         }
     }
-    */
     
+    /*
     for (int i = 0; i < 26; ++i) {
         char value[100] = {0};
         sprintf(value, "%c", 'a' + i);
-        if (skiplist_insert(list, value)) {
-            printf("insert: %s\n", value);
+        if (skiplist_insert(list, value, &rank)) {
+            printf("insert: %s, rank: %d\n", value, rank);
         }
     }
+    */
 
     skiplist_view(list);
 
@@ -79,13 +80,13 @@ int main(int argc, char *argv[])
     printf("tail: %s\n", (char *)tail->value);
 
     char *value = "z";
-    int rank = 0;
+    rank = 0;
     skiplist_node *node = skiplist_find(list, value, &rank);
     if (node) {
         printf("find %s, rank: %d\n", value, rank);
+        skiplist_delete(list, node);
     }
-    skiplist_delete(list, node);
-
+    
     skiplist_view(list);
 
     tail = skiplist_tail(list);
