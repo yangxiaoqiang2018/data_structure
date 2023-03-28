@@ -79,12 +79,12 @@ int main(int argc, char *argv[])
     skiplist_node *tail = skiplist_tail(list);
     printf("tail: %s\n", (char *)tail->value);
 
-    char *value = "z";
+    char *value = "a";
     rank = 0;
     skiplist_node *node = skiplist_find(list, value, &rank);
     if (node) {
         printf("find %s, rank: %d\n", value, rank);
-        skiplist_delete(list, node);
+        //skiplist_delete(list, node);
     }
     
     skiplist_view(list);
@@ -97,7 +97,9 @@ int main(int argc, char *argv[])
     skiplist_iter *iter = skiplist_get_iterator(list);
     while ((node = skiplist_next(iter)) != NULL) {
         value_tmp = node->value;
-        //printf("%s\n", (char *)node->value);
+        rank = 0;
+        skiplist_node *node = skiplist_find(list, value_tmp, &rank);
+        printf("find %s rank: %d\n", value_tmp, rank);
         //skiplist_delete(list, node);
     }
     skiplist_release_iterator(iter);
